@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Search Student</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <!-- Popper JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="index2.html">Student Server</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="index2.html">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="addStudent.html">Add Student</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="deleteStudent.html">Delete Student</a>
+      </li>
+      <!-- Add other navigation links as needed -->
+    </ul>
+  </div>
+  <span class="navbar-text">
+    Ian Blankenship - Z23618259
+  </span>
+</nav>
+
+<label for="last_name">Last Name:</label>
+<input type="text" id="last_name" name="last_name"><br><br>
+
+<button onclick="searchStudent()">Search</button>
+<br>
+<br>
+
+<!-- Table structure added here -->
+<table class="table">
+  <thead>
+  <tr>
+    <th>Record ID</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>GPA</th>
+    <th>Enrolled</th>
+  </tr>
+  </thead>
+  <tbody id="searchResults">
+  <!-- Search results will be populated here using JavaScript -->
+  </tbody>
+</table>
+
+<script>
+  function searchStudent() {
+    var last_name_val = $("#last_name").val();
+
+    $.ajax({
+      url: "https://hw-6-ianblankenship-cen-8721f7da463b.herokuapp.com/students/search/" + last_name_val,
+      type: "get",
+      success: function(response) {
+        let tableContent = '';
+        for (let student of response) { // Assuming the response is an array of students
+          tableContent += `<tr>
+                <td>${student.record_id}</td>
+                <td>${student.first_name}</td>
+                <td>${student.last_name}</td>
+                <td>${student.gpa}</td>
+                <td>${student.enrolled}</td>
+            </tr>`;
+        }
+        $("#searchResults").html(tableContent);
+      },
+      error: function(xhr) {
+        console.log(xhr.responseText);
+        $("#searchResults").html('<tr><td colspan="4">Error retrieving student data.</td></tr>');
+      }
+    });
+  }
+</script>
+
+</body>
+</html>

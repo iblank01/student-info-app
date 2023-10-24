@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Delete Student</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <!-- Popper JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="index2.html">Student Server</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="index2.html">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="addStudent.html">Add Student</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="deleteStudent.html">Delete Student</a>
+      </li>
+      <!-- Add other navigation links as needed -->
+    </ul>
+  </div>
+  <span class="navbar-text">
+    Ian Blankenship - Z23618259
+  </span>
+</nav>
+
+<label for="record_id">Record ID:</label>
+<input type="text" id="record_id" name="record_id"><br><br>
+
+<button onclick="deleteStudent()">Delete</button>
+<br>
+<br>
+<div id="deleteDiv" name="deleteDiv"></div>
+
+<script>
+  function deleteStudent() {
+    var record_id_val = $("#record_id").val();
+
+    $.ajax({
+      url: "https://hw-6-ianblankenship-cen-8721f7da463b.herokuapp.com/students/" + record_id_val,
+      type: "delete",
+      success: function(response) {
+        $("#deleteDiv").text(response.message);
+      },
+      error: function(xhr) {
+        $("#deleteDiv").text('Error: ' + xhr.responseText);
+      }
+    });
+  }
+</script>
+
+
+</body>
+</html>
